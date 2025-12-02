@@ -1,0 +1,832 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Abu Dhabi Company Setup Journey</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: rgb(210, 211, 211);
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: rgb(210, 211, 211);
+            color: #1d1834;
+            padding: 40px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 32px;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+        
+        .header p {
+            font-size: 16px;
+            opacity: 0.9;
+        }
+        
+        .journey-selector {
+            display: flex;
+            background: #f8f9fa;
+            border-bottom: 2px solid #e9ecef;
+        }
+        
+        .journey-tab {
+            flex: 1;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: none;
+            background: transparent;
+            font-size: 16px;
+            font-weight: 500;
+            color: #495057;
+        }
+        
+        .journey-tab:hover {
+            background: #e9ecef;
+        }
+        
+        .journey-tab.active {
+            background: white;
+            color: #1d1834;
+            border-bottom: 3px solid #1d1834;
+        }
+        
+        .journey-content {
+            display: none;
+            padding: 40px;
+        }
+        
+        .journey-content.active {
+            display: block;
+        }
+        
+        .stage {
+            margin-bottom: 30px;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            overflow: hidden;
+            transition: all 0.3s;
+        }
+        
+        .stage:hover {
+            border-color: #1d1834;
+            box-shadow: 0 4px 12px rgba(29, 24, 52, 0.1);
+        }
+        
+        .stage-header {
+            background: #1d1834;
+            color: white;
+            padding: 20px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .stage-header h3 {
+            font-size: 18px;
+            font-weight: 600;
+        }
+        
+        .stage-number {
+            background: white;
+            color: #1d1834;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 16px;
+        }
+        
+        .stage-body {
+            padding: 25px;
+            background: white;
+            display: none;
+        }
+        
+        .stage.expanded .stage-body {
+            display: block;
+        }
+        
+        .stage.expanded .stage-header {
+            background: #2d2449;
+        }
+        
+        .toggle-icon {
+            transition: transform 0.3s;
+        }
+        
+        .stage.expanded .toggle-icon {
+            transform: rotate(180deg);
+        }
+        
+        .stage-section {
+            margin-bottom: 20px;
+        }
+        
+        .stage-section h4 {
+            color: #1d1834;
+            font-size: 16px;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+        
+        .question-list, .output-list, .criteria-list {
+            list-style: none;
+            padding-left: 0;
+        }
+        
+        .question-list li, .output-list li, .criteria-list li {
+            padding: 8px 0 8px 25px;
+            position: relative;
+            color: #495057;
+            line-height: 1.6;
+        }
+        
+        .question-list li:before {
+            content: "?";
+            position: absolute;
+            left: 0;
+            color: #1d1834;
+            font-weight: bold;
+            background: #e7f1ff;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+        }
+        
+        .output-list li:before {
+            content: "→";
+            position: absolute;
+            left: 0;
+            color: #28a745;
+            font-weight: bold;
+        }
+        
+        .criteria-list li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #28a745;
+            font-weight: bold;
+        }
+        
+        .decision-tree {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .decision-option {
+            padding: 15px;
+            border-radius: 6px;
+            border: 2px solid #e9ecef;
+            background: #f8f9fa;
+            transition: all 0.3s;
+        }
+        
+        .decision-option:hover {
+            border-color: #1d1834;
+            transform: translateY(-2px);
+        }
+        
+        .decision-option.eligible {
+            border-color: #28a745;
+            background: #f1f9f3;
+        }
+        
+        .decision-option.partial {
+            border-color: #ffc107;
+            background: #fffbf0;
+        }
+        
+        .decision-option.not-eligible {
+            border-color: #dc3545;
+            background: #fef5f5;
+        }
+        
+        .decision-option h5 {
+            font-size: 14px;
+            margin-bottom: 8px;
+            color: #1d1834;
+        }
+        
+        .decision-option p {
+            font-size: 13px;
+            color: #6c757d;
+            line-height: 1.5;
+        }
+        
+        .flow-arrow {
+            text-align: center;
+            margin: 20px 0;
+            color: #1d1834;
+            font-size: 24px;
+            font-weight: bold;
+        }
+        
+        .final-routing {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+        
+        .final-routing h4 {
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+        
+        .final-routing p {
+            line-height: 1.6;
+            margin-bottom: 10px;
+        }
+        
+        .expand-all {
+            margin-bottom: 20px;
+            padding: 12px 24px;
+            background: #1d1834;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+        
+        .expand-all:hover {
+            background: #2d2449;
+            transform: translateY(-1px);
+        }
+        
+        .badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-right: 8px;
+            margin-bottom: 8px;
+        }
+        
+        .badge.tech { background: #e7f1ff; color: #1d1834; }
+        .badge.stage { background: #fff3cd; color: #856404; }
+        .badge.sector { background: #d1ecf1; color: #0c5460; }
+        
+        @media (max-width: 768px) {
+            .header h1 { font-size: 24px; }
+            .journey-tab { font-size: 14px; padding: 15px; }
+            .journey-content { padding: 20px; }
+            .decision-tree { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Abu Dhabi Company Setup Journey</h1>
+            <p>Interactive guide for tech startups and standard company formation</p>
+        </div>
+        
+        <div class="journey-selector">
+            <button class="journey-tab" onclick="showJourney('standard')">Standard Company Journey</button>
+            <button class="journey-tab active" onclick="showJourney('tech')">Tech Startup Journey</button>
+        </div>
+        
+        <div id="tech-journey" class="journey-content">
+            <button class="expand-all" onclick="toggleAll('tech')">Expand All Stages</button>
+            
+            <div class="stage">
+                <div class="stage-header" onclick="toggleStage(this)">
+                    <h3>Stage 1: Entry and Startup Identification</h3>
+                    <div style="display: flex; align-items: center; gap: 15px;">
+                        <span class="stage-number">1</span>
+                        <span class="toggle-icon">▼</span>
+                    </div>
+                </div>
+                <div class="stage-body">
+                    <div class="stage-section">
+                        <h4>User Selection</h4>
+                        <p>User self-selects "Tech Startup" and confirms through classification questions.</p>
+                    </div>
+                    
+                    <div class="stage-section">
+                        <h4>Classification Questions</h4>
+                        <ul class="question-list">
+                            <li>What is your company's product or technology?</li>
+                            <li>What stage are you at? (Idea, MVP, Revenue, Scaling)</li>
+                            <li>What sector? (AI, Fintech, Climate, HealthTech, Web3, etc)</li>
+                            <li>Funding status? (Bootstrapped, Angel, Seed, Series A)</li>
+                            <li>Team size and location?</li>
+                            <li>Add any other relevant information.</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="stage-section">
+                        <h4>Outputs</h4>
+                        <ul class="output-list">
+                            <li>Confirmed startup qualification</li>
+                            <li>Sector knowledge</li>
+                            <li>Stage knowledge</li>
+                            <li>Recommended track (Early stage vs scale stage)</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="flow-arrow">↓</div>
+            
+            <div class="stage">
+                <div class="stage-header" onclick="toggleStage(this)">
+                    <h3>Stage 2: Hub71 Eligibility Screening</h3>
+                    <div style="display: flex; align-items: center; gap: 15px;">
+                        <span class="stage-number">2</span>
+                        <span class="toggle-icon">▼</span>
+                    </div>
+                </div>
+                <div class="stage-body">
+                    <div class="stage-section">
+                        <h4>Hub71 Key Criteria</h4>
+                        <ul class="criteria-list">
+                            <li>Tech-enabled solution</li>
+                            <li>Differentiated product or IP</li>
+                            <li>Team with execution capability</li>
+                            <li>Global market potential</li>
+                            <li>Alignment to thematic cohorts (AI, Fintech, Web3, ClimateTech, etc)</li>
+                            <li>Willingness to build from/for Abu Dhabi</li>
+                            <li>Preferably MVP stage or later for main program</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="stage-section">
+                        <h4>AI Screening Outputs</h4>
+                        <div class="decision-tree">
+                            <div class="decision-option eligible">
+                                <h5>Eligible for Incentive Program</h5>
+                                <p>Flagship program with full subsidies and support.</p>
+                            </div>
+                            <div class="decision-option eligible">
+                                <h5>Eligible for Hub71+ Thematic</h5>
+                                <p>Sector-specific cohort programs.</p>
+                            </div>
+                            <div class="decision-option partial">
+                                <h5>Community Membership</h5>
+                                <p>Ecosystem access without full incentives.</p>
+                            </div>
+                            <div class="decision-option partial">
+                                <h5>Venture Studio Track</h5>
+                                <p>For founders at idea stage.</p>
+                            </div>
+                            <div class="decision-option not-eligible">
+                                <h5>Not Eligible Yet</h5>
+                                <p>With improvement suggestions provided.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="flow-arrow">↓</div>
+            
+            <div class="stage">
+                <div class="stage-header" onclick="toggleStage(this)">
+                    <h3>Stage 3: Program Matching and Routing</h3>
+                    <div style="display: flex; align-items: center; gap: 15px;">
+                        <span class="stage-number">3</span>
+                        <span class="toggle-icon">▼</span>
+                    </div>
+                </div>
+                <div class="stage-body">
+                    <div class="stage-section">
+                        <h4>Based on sector, stage, and eligibility, AI recommends correct Hub71 program and routing.</h4>
+                    </div>
+                    
+                    <div class="decision-tree">
+                        <div class="decision-option eligible">
+                            <h5>1. Incentive Program (Flagship)</h5>
+                            <p><strong>For:</strong> Seed to Series A, scaling potential, strong tech/IP.</p>
+                            <p><strong>Benefits:</strong> Up to 100% relocation subsidies, office space, partner access.</p>
+                            <p><strong>Triggers:</strong> MVP/revenue stage, solid team, clear IP, global scale potential.</p>
+                            <p style="margin-top: 10px; padding-top: 10px; border-top: 1px solid #dee2e6;"><strong>→ Redirect to Hub71 Incentive Program application portal</strong></p>
+                        </div>
+                        
+                        <div class="decision-option eligible">
+                            <h5>2. Hub71+ Thematic Programs</h5>
+                            <p><strong>Sectors:</strong> AI, ClimateTech, Web3, Fintech, HealthTech.</p>
+                            <p><strong>Triggers:</strong> Sector match, fits challenge statements, early traction.</p>
+                            <p style="margin-top: 10px; padding-top: 10px; border-top: 1px solid #dee2e6;"><strong>→ Redirect to Hub71+ Thematic Program portal</strong></p>
+                        </div>
+                        
+                        <div class="decision-option partial">
+                            <h5>3. Community Membership</h5>
+                            <p><strong>For:</strong> Too early for incentives but wanting ecosystem access.</p>
+                            <p><strong>Triggers:</strong> Idea/MVP stage, high potential, bootstrapped.</p>
+                            <p style="margin-top: 10px; padding-top: 10px; border-top: 1px solid #dee2e6;"><strong>→ Redirect to Hub71 Community Membership portal</strong></p>
+                        </div>
+                        
+                        <div class="decision-option partial">
+                            <h5>4. Venture Studio Track</h5>
+                            <p><strong>For:</strong> Founders at idea stage with no product yet.</p>
+                            <p><strong>Triggers:</strong> Early prototype, strong founder, no revenue, need product support.</p>
+                            <p style="margin-top: 10px; padding-top: 10px; border-top: 1px solid #dee2e6;"><strong>→ Redirect to Hub71 Venture Studio portal</strong></p>
+                        </div>
+                        
+                        <div class="decision-option not-eligible">
+                            <h5>5. Not Eligible for Hub71</h5>
+                            <p><strong>Reason:</strong> Does not meet Hub71 tech startup criteria or readiness level.</p>
+                            <p style="margin-top: 10px; padding-top: 10px; border-top: 1px solid #dee2e6;"><strong>→ Redirect to Standard Company Journey</strong></p>
+                            <p style="margin-top: 8px; font-size: 12px; color: #6c757d;">User will be guided through Abu Dhabi jurisdiction matching for standard business setup.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="flow-arrow">↓</div>
+            
+            <div class="stage" style="border: 2px dashed #6c757d;">
+                <div class="stage-header" onclick="toggleStage(this)" style="background: #6c757d;">
+                    <h3>Stage 4: Startup Guidance Pack (Optional)</h3>
+                    <div style="display: flex; align-items: center; gap: 15px;">
+                        <span class="stage-number" style="background: #f8f9fa; color: #6c757d;">4</span>
+                        <span class="toggle-icon">▼</span>
+                    </div>
+                </div>
+                <div class="stage-body">
+                    <div style="background: #fff3cd; padding: 15px; border-radius: 6px; margin-bottom: 20px; border-left: 4px solid #ffc107;">
+                        <strong>Optional Enhancement:</strong> For eligible startups, AI can generate additional guidance materials before application.
+                    </div>
+                    
+                    <div class="stage-section">
+                        <h4>AI-Generated Personalized Guidance Pack</h4>
+                        <ul class="output-list">
+                            <li>Recommended Hub71 program summary</li>
+                            <li>Required documents checklist</li>
+                            <li>Application steps and timeline</li>
+                            <li>Success tips (what Hub71 looks for)</li>
+                            <li>Risks or missing components identified</li>
+                            <li>How to increase acceptance chances</li>
+                            <li>Tailored application summary</li>
+                            <li>Draft answers to program questions</li>
+                            <li>Pitch deck guidance</li>
+                            <li>Team profile structuring recommendations</li>
+                            <li>Market sizing reasoning support</li>
+                        </ul>
+                        <p style="margin-top: 15px; color: #6c757d;">Pack can be exported or emailed to startup founders.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="final-routing" style="background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%); color: #495057; margin-top: 30px;">
+                <h4 style="color: #1d1834;">Alternative Path: Direct Company Formation</h4>
+                <p>For startups that prefer to establish their company structure first before applying to Hub71, or for those exploring other options:</p>
+                <p style="margin-top: 10px; font-size: 14px;">→ Proceed with <strong>Incorpify</strong> for end-to-end company formation assistance in ADGM or other Abu Dhabi jurisdictions.</p>
+            </div>
+        </div>
+        
+        <div id="standard-journey" class="journey-content active">
+            <button class="expand-all" onclick="toggleAll('standard')">Expand All Stages</button>
+            
+            <div class="stage">
+                <div class="stage-header" onclick="toggleStage(this)">
+                    <h3>Stage 1: Entry and Company Identification</h3>
+                    <div style="display: flex; align-items: center; gap: 15px;">
+                        <span class="stage-number">1</span>
+                        <span class="toggle-icon">▼</span>
+                    </div>
+                </div>
+                <div class="stage-body">
+                    <div class="stage-section">
+                        <h4>Start Point</h4>
+                        <p>User selects "Set up or expand a company in Abu Dhabi"</p>
+                    </div>
+                    
+                    <div class="stage-section">
+                        <h4>Mandatory Classification Questions</h4>
+                        <ul class="question-list">
+                            <li>Are you opening a new company or expanding an existing company?</li>
+                            <li>What is your business activity? (consulting, logistics, e-commerce, holding, trading, manufacturing, real estate, etc)</li>
+                            <li>What is your ownership structure? (100% foreign owned, local partnership, branch of foreign entity)</li>
+                            <li>How many employees do you anticipate in the UAE in year 1?</li>
+                            <li>Do you need physical office, flexi desk, or no space requirement?</li>
+                            <li>Where will your clients be located? (UAE, GCC, global)</li>
+                            <li>Do you expect to sell goods or services?</li>
+                            <li>Do you require import-export capabilities?</li>
+                            <li>Do you have any preferred regulatory environment? (Light touch, financial services, general commercial)</li>
+                            <li>Any special approvals needed? (health, education, engineering, media, etc)</li>
+                            <li>What is your budget range for setup and yearly costs?</li>
+                            <li>Do you require visa quotas for staff?</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="stage-section">
+                        <h4>Outputs</h4>
+                        <ul class="output-list">
+                            <li>Activity classification</li>
+                            <li>Space requirement</li>
+                            <li>Visa expectation</li>
+                            <li>Regulatory complexity category</li>
+                            <li>Ownership model</li>
+                            <li>Budget suitability</li>
+                            <li>Physical vs virtual requirement</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="flow-arrow">↓</div>
+            
+            <div class="stage">
+                <div class="stage-header" onclick="toggleStage(this)">
+                    <h3>Stage 2: Needs Assessment and Filter Logic</h3>
+                    <div style="display: flex; align-items: center; gap: 15px;">
+                        <span class="stage-number">2</span>
+                        <span class="toggle-icon">▼</span>
+                    </div>
+                </div>
+                <div class="stage-body">
+                    <div class="stage-section">
+                        <h4>AI Evaluation Process</h4>
+                        <p>AI evaluates user information to determine restrictions, licenses needed, and identify if special regulators are involved.</p>
+                    </div>
+                    
+                    <div class="stage-section">
+                        <h4>Company Category Mapping</h4>
+                        <div class="decision-tree">
+                            <div class="decision-option">
+                                <h5>Professional Services</h5>
+                                <p>Consulting, advisory, admin</p>
+                            </div>
+                            <div class="decision-option">
+                                <h5>Trading or Logistics</h5>
+                                <p>Import, export, distribution</p>
+                            </div>
+                            <div class="decision-option">
+                                <h5>Holding Entity</h5>
+                                <p>Investment holding structure</p>
+                            </div>
+                            <div class="decision-option">
+                                <h5>Tech-Enabled (Non-Startup)</h5>
+                                <p>Technology services</p>
+                            </div>
+                            <div class="decision-option">
+                                <h5>Media and Creative</h5>
+                                <p>Content, production, creative</p>
+                            </div>
+                            <div class="decision-option">
+                                <h5>Industrial/Manufacturing</h5>
+                                <p>Production, assembly</p>
+                            </div>
+                            <div class="decision-option">
+                                <h5>Financial Services</h5>
+                                <p>Regulated financial activities</p>
+                            </div>
+                            <div class="decision-option">
+                                <h5>E-Commerce</h5>
+                                <p>Online retail operations</p>
+                            </div>
+                        </div>
+                        <p style="margin-top: 15px; color: #6c757d;"><strong>Why:</strong> Each category maps differently across Abu Dhabi free zones and mainland.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="flow-arrow">↓</div>
+            
+            <div class="stage">
+                <div class="stage-header" onclick="toggleStage(this)">
+                    <h3>Stage 3: Jurisdiction Feasibility Check</h3>
+                    <div style="display: flex; align-items: center; gap: 15px;">
+                        <span class="stage-number">3</span>
+                        <span class="toggle-icon">▼</span>
+                    </div>
+                </div>
+                <div class="stage-body">
+                    <div class="stage-section">
+                        <h4>AI checks each Abu Dhabi jurisdiction against user profile</h4>
+                    </div>
+                    
+                    <div class="stage-section">
+                        <h4>Jurisdictions Included</h4>
+                        <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px;">
+                            <span class="badge tech">ADGM</span>
+                            <span class="badge tech">Masdar City</span>
+                            <span class="badge tech">TwoFour54</span>
+                            <span class="badge tech">KEZAD</span>
+                            <span class="badge tech">Abu Dhabi Mainland (DED)</span>
+                            <span class="badge tech">Other Abu Dhabi Free Zones</span>
+                        </div>
+                    </div>
+                    
+                    <div class="stage-section">
+                        <h4>Feasibility Factors</h4>
+                        <ul class="criteria-list">
+                            <li>Allowed business activities</li>
+                            <li>Office or warehouse requirements</li>
+                            <li>Visa quotas</li>
+                            <li>Approval needs</li>
+                            <li>Cost alignment</li>
+                            <li>Ownership model acceptance</li>
+                            <li>Licensing renewal complexity</li>
+                            <li>Fast-track availability</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="stage-section">
+                        <h4>Outputs</h4>
+                        <div class="decision-tree">
+                            <div class="decision-option eligible">
+                                <h5>Full Fit</h5>
+                                <p>All requirements met. Jurisdiction fully suitable.</p>
+                            </div>
+                            <div class="decision-option partial">
+                                <h5>Partial Fit</h5>
+                                <p>Most requirements met with minor restrictions.</p>
+                            </div>
+                            <div class="decision-option not-eligible">
+                                <h5>Not Suitable</h5>
+                                <p>Key requirements not met.</p>
+                            </div>
+                        </div>
+                        <p style="margin-top: 15px; color: #6c757d;">Cost and timeline range provided for each. Restrictions noted where applicable.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="flow-arrow">↓</div>
+            
+            <div class="stage">
+                <div class="stage-header" onclick="toggleStage(this)">
+                    <h3>Stage 4: Recommendation Engine and Routing</h3>
+                    <div style="display: flex; align-items: center; gap: 15px;">
+                        <span class="stage-number">4</span>
+                        <span class="toggle-icon">▼</span>
+                    </div>
+                </div>
+                <div class="stage-body">
+                    <div class="stage-section">
+                        <h4>Based on all inputs, AI produces ranked list of suggested jurisdictions with direct routing</h4>
+                    </div>
+                    
+                    <div class="decision-tree">
+                        <div class="decision-option eligible">
+                            <h5>1. Most Suitable</h5>
+                            <p><strong>Example: ADGM</strong></p>
+                            <p>Strong match for professional services and holding companies.</p>
+                            <p><strong>Rationale:</strong> 100% foreign ownership, fast licensing, no local sponsor.</p>
+                            <p style="margin-top: 10px; padding-top: 10px; border-top: 1px solid #dee2e6;"><strong>→ Redirect to ADGM registration portal</strong></p>
+                        </div>
+                        
+                        <div class="decision-option eligible">
+                            <h5>2. Good Alternative</h5>
+                            <p><strong>Example: Masdar City</strong></p>
+                            <p>Lower cost, similar activity coverage.</p>
+                            <p><strong>Rationale:</strong> Cost-effective for consulting or sustainability-linked companies.</p>
+                            <p style="margin-top: 10px; padding-top: 10px; border-top: 1px solid #dee2e6;"><strong>→ Redirect to Masdar City portal</strong></p>
+                        </div>
+                        
+                        <div class="decision-option partial">
+                            <h5>3. Secondary Option</h5>
+                            <p><strong>Example: Mainland (DED)</strong></p>
+                            <p>If higher visa quota or local contracting needed.</p>
+                            <p><strong>Rationale:</strong> Easier for B2G contracts or wide commercial licenses.</p>
+                            <p style="margin-top: 10px; padding-top: 10px; border-top: 1px solid #dee2e6;"><strong>→ Redirect to DED portal</strong></p>
+                        </div>
+                        
+                        <div class="decision-option not-eligible">
+                            <h5>4. Not Recommended</h5>
+                            <p><strong>Example: KEZAD</strong></p>
+                            <p>Requires warehouse or industrial activity.</p>
+                            <p><strong>Rationale:</strong> User does not need physical operations.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="stage-section" style="margin-top: 20px;">
+                        <h4>AI Presents for Each Option</h4>
+                        <ul class="output-list">
+                            <li>Pros and cons</li>
+                            <li>Licensing costs</li>
+                            <li>Setup timeline</li>
+                            <li>Visa allocation</li>
+                            <li>Office requirements</li>
+                            <li>Special approvals</li>
+                            <li>Renewal structure</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="final-routing" style="margin-top: 20px;">
+                        <h4>Final Output Directs User To:</h4>
+                        <p>Recommended free zone or mainland registration portal based on best fit.</p>
+                        <div style="margin-top: 15px; padding: 15px; background: rgba(255,255,255,0.2); border-radius: 6px;">
+                            <strong>Example Output:</strong>
+                            <p style="margin-top: 10px;">"Based on your activity and requirements, ADGM is the most suitable option. Click here to proceed to ADGM licensing."</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="flow-arrow">↓</div>
+            
+            <div class="stage" style="border: 2px dashed #6c757d;">
+                <div class="stage-header" onclick="toggleStage(this)" style="background: #6c757d;">
+                    <h3>Stage 5: Guidance Pack (Optional)</h3>
+                    <div style="display: flex; align-items: center; gap: 15px;">
+                        <span class="stage-number" style="background: #f8f9fa; color: #6c757d;">5</span>
+                        <span class="toggle-icon">▼</span>
+                    </div>
+                </div>
+                <div class="stage-body">
+                    <div style="background: #fff3cd; padding: 15px; border-radius: 6px; margin-bottom: 20px; border-left: 4px solid #ffc107;">
+                        <strong>Optional Enhancement:</strong> For users who want additional documentation before proceeding.
+                    </div>
+                    
+                    <div class="stage-section">
+                        <h4>AI Generates Structured Report</h4>
+                        <ul class="output-list">
+                            <li>Recommended jurisdiction</li>
+                            <li>Alternatives and rationale</li>
+                            <li>Setup steps</li>
+                            <li>Required documents</li>
+                            <li>Office requirement guidance</li>
+                            <li>Approximate cost breakdown</li>
+                            <li>Expected timeline</li>
+                            <li>Notes on compliance or restrictions</li>
+                        </ul>
+                        <p style="margin-top: 15px; color: #6c757d;">User can download or email this pack.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="final-routing" style="background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%); color: #495057; margin-top: 30px;">
+                <h4 style="color: #1d1834;">Alternative Path: Direct Company Formation</h4>
+                <p>For businesses that prefer end-to-end incorporation support:</p>
+                <p style="margin-top: 10px; font-size: 14px;">→ Proceed with <strong>Incorpify</strong> for fully managed company formation in your chosen jurisdiction.</p>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        function showJourney(journey) {
+            document.querySelectorAll('.journey-content').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.journey-tab').forEach(el => el.classList.remove('active'));
+            
+            document.getElementById(journey + '-journey').classList.add('active');
+            event.target.classList.add('active');
+        }
+        
+        function toggleStage(header) {
+            const stage = header.parentElement;
+            stage.classList.toggle('expanded');
+        }
+        
+        function toggleAll(journey) {
+            const container = document.getElementById(journey + '-journey');
+            const stages = container.querySelectorAll('.stage');
+            const allExpanded = Array.from(stages).every(stage => stage.classList.contains('expanded'));
+            
+            stages.forEach(stage => {
+                if (allExpanded) {
+                    stage.classList.remove('expanded');
+                } else {
+                    stage.classList.add('expanded');
+                }
+            });
+            
+            const button = container.querySelector('.expand-all');
+            button.textContent = allExpanded ? 'Expand All Stages' : 'Collapse All Stages';
+        }
+    </script>
+</body>
+</html>

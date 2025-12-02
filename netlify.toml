@@ -1,0 +1,10 @@
+[build]
+  command = "npm run build"
+  # Do NOT set publish directory - let the Next.js plugin handle it automatically
+  # The plugin will manage routing and file serving
+
+[[plugins]]
+  package = "@netlify/plugin-nextjs"
+
+[build.environment]
+  NODE_VERSION = "18"
