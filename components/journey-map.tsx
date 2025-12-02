@@ -35,6 +35,8 @@ import {
   Globe,
   Zap,
   X,
+  Package,
+  ArrowLeftRight,
 } from "lucide-react"
 import Image from "next/image"
 
@@ -162,27 +164,27 @@ export default function JourneyMap() {
                         </div>
                         <ul className="space-y-2 pl-7">
                           <li className="flex items-start gap-3">
-                            <HelpCircle className="w-5 h-5 text-primary mt-0.5 flex-shrink-0" />
+                            <Rocket className="w-5 h-5 text-primary mt-0.5 flex-shrink-0" />
                             <span className="text-gray-700">What is your company's product or technology?</span>
                           </li>
                           <li className="flex items-start gap-3">
-                            <HelpCircle className="w-5 h-5 text-primary mt-0.5 flex-shrink-0" />
+                            <TrendingUp className="w-5 h-5 text-primary mt-0.5 flex-shrink-0" />
                             <span className="text-gray-700">What stage are you at? (Idea, MVP, Revenue, Scaling)</span>
                           </li>
                           <li className="flex items-start gap-3">
-                            <HelpCircle className="w-5 h-5 text-primary mt-0.5 flex-shrink-0" />
+                            <Globe className="w-5 h-5 text-primary mt-0.5 flex-shrink-0" />
                             <span className="text-gray-700">What sector? (AI, Fintech, Climate, HealthTech, Web3, etc)</span>
                           </li>
                           <li className="flex items-start gap-3">
-                            <HelpCircle className="w-5 h-5 text-primary mt-0.5 flex-shrink-0" />
+                            <DollarSign className="w-5 h-5 text-primary mt-0.5 flex-shrink-0" />
                             <span className="text-gray-700">Funding status? (Bootstrapped, Angel, Seed, Series A)</span>
                           </li>
                           <li className="flex items-start gap-3">
-                            <HelpCircle className="w-5 h-5 text-primary mt-0.5 flex-shrink-0" />
+                            <Users className="w-5 h-5 text-primary mt-0.5 flex-shrink-0" />
                             <span className="text-gray-700">Team size and location?</span>
                           </li>
                           <li className="flex items-start gap-3">
-                            <HelpCircle className="w-5 h-5 text-primary mt-0.5 flex-shrink-0" />
+                            <FileText className="w-5 h-5 text-primary mt-0.5 flex-shrink-0" />
                             <span className="text-gray-700">Add any other relevant information.</span>
                           </li>
                         </ul>
@@ -640,51 +642,51 @@ export default function JourneyMap() {
                         </div>
                         <ul className="space-y-2 pl-7">
                           <li className="flex items-start gap-3">
-                            <HelpCircle className="w-5 h-5 text-primary mt-0.5 flex-shrink-0" />
+                            <Building2 className="w-5 h-5 text-primary mt-0.5 flex-shrink-0" />
                             <span className="text-gray-700">Are you opening a new company or expanding an existing company?</span>
                           </li>
                           <li className="flex items-start gap-3">
-                            <HelpCircle className="w-5 h-5 text-primary mt-0.5 flex-shrink-0" />
+                            <Briefcase className="w-5 h-5 text-primary mt-0.5 flex-shrink-0" />
                             <span className="text-gray-700">What is your business activity? (consulting, logistics, e-commerce, holding, trading, manufacturing, real estate, etc)</span>
                           </li>
                           <li className="flex items-start gap-3">
-                            <HelpCircle className="w-5 h-5 text-primary mt-0.5 flex-shrink-0" />
+                            <Users className="w-5 h-5 text-primary mt-0.5 flex-shrink-0" />
                             <span className="text-gray-700">What is your ownership structure? (100% foreign owned, local partnership, branch of foreign entity)</span>
                           </li>
                           <li className="flex items-start gap-3">
-                            <HelpCircle className="w-5 h-5 text-primary mt-0.5 flex-shrink-0" />
+                            <Users className="w-5 h-5 text-primary mt-0.5 flex-shrink-0" />
                             <span className="text-gray-700">How many employees do you anticipate in the UAE in year 1?</span>
                           </li>
                           <li className="flex items-start gap-3">
-                            <HelpCircle className="w-5 h-5 text-primary mt-0.5 flex-shrink-0" />
+                            <Building2 className="w-5 h-5 text-primary mt-0.5 flex-shrink-0" />
                             <span className="text-gray-700">Do you need physical office, flexi desk, or no space requirement?</span>
                           </li>
                           <li className="flex items-start gap-3">
-                            <HelpCircle className="w-5 h-5 text-primary mt-0.5 flex-shrink-0" />
+                            <MapPin className="w-5 h-5 text-primary mt-0.5 flex-shrink-0" />
                             <span className="text-gray-700">Where will your clients be located? (UAE, GCC, global)</span>
                           </li>
                           <li className="flex items-start gap-3">
-                            <HelpCircle className="w-5 h-5 text-primary mt-0.5 flex-shrink-0" />
+                            <ShoppingCart className="w-5 h-5 text-primary mt-0.5 flex-shrink-0" />
                             <span className="text-gray-700">Do you expect to sell goods or services?</span>
                           </li>
                           <li className="flex items-start gap-3">
-                            <HelpCircle className="w-5 h-5 text-primary mt-0.5 flex-shrink-0" />
+                            <ArrowLeftRight className="w-5 h-5 text-primary mt-0.5 flex-shrink-0" />
                             <span className="text-gray-700">Do you require import-export capabilities?</span>
                           </li>
                           <li className="flex items-start gap-3">
-                            <HelpCircle className="w-5 h-5 text-primary mt-0.5 flex-shrink-0" />
+                            <Shield className="w-5 h-5 text-primary mt-0.5 flex-shrink-0" />
                             <span className="text-gray-700">Do you have any preferred regulatory environment? (Light touch, financial services, general commercial)</span>
                           </li>
                           <li className="flex items-start gap-3">
-                            <HelpCircle className="w-5 h-5 text-primary mt-0.5 flex-shrink-0" />
+                            <CheckSquare className="w-5 h-5 text-primary mt-0.5 flex-shrink-0" />
                             <span className="text-gray-700">Any special approvals needed? (health, education, engineering, media, etc)</span>
                           </li>
                           <li className="flex items-start gap-3">
-                            <HelpCircle className="w-5 h-5 text-primary mt-0.5 flex-shrink-0" />
+                            <DollarSign className="w-5 h-5 text-primary mt-0.5 flex-shrink-0" />
                             <span className="text-gray-700">What is your budget range for setup and yearly costs?</span>
                           </li>
                           <li className="flex items-start gap-3">
-                            <HelpCircle className="w-5 h-5 text-primary mt-0.5 flex-shrink-0" />
+                            <Users className="w-5 h-5 text-primary mt-0.5 flex-shrink-0" />
                             <span className="text-gray-700">Do you require visa quotas for staff?</span>
                           </li>
                         </ul>
