@@ -1,17 +1,14 @@
 /** @type {import('next').NextConfig} */
-const isProduction = process.env.NODE_ENV === 'production'
-const basePath = isProduction ? '/adgovflow' : ''
-
 const nextConfig = {
   output: 'export',
   images: {
     unoptimized: true,
   },
-  basePath: basePath,
-  assetPrefix: basePath,
-  env: {
-    NEXT_PUBLIC_BASE_PATH: basePath,
-  },
+  // Use environment variable to control basePath
+  // For custom domain: leave empty or set NEXT_PUBLIC_BASE_PATH=''
+  // For GitHub Pages subdomain: set NEXT_PUBLIC_BASE_PATH='/adgovflow'
+  basePath: process.env.NEXT_PUBLIC_BASE_PATH || '',
+  assetPrefix: process.env.NEXT_PUBLIC_BASE_PATH || '',
 }
 
 module.exports = nextConfig
