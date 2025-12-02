@@ -9,6 +9,7 @@ node_modules/
 # Next.js
 /.next/
 /out/
+# Note: /out/ is needed for GitHub Pages, but we'll commit it via workflow
 
 # Production
 /build
