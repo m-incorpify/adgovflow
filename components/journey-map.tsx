@@ -36,7 +36,8 @@ import {
   Zap,
   X,
 } from "lucide-react"
-import Image from "next/image"
+// Using regular img tag for static export compatibility with GitHub Pages
+const basePath = process.env.NEXT_PUBLIC_BASE_PATH || ''
 
 export default function JourneyMap() {
   const [expandedStages, setExpandedStages] = useState<string[]>([
@@ -66,8 +67,8 @@ export default function JourneyMap() {
           <CardHeader className="text-center bg-white text-primary rounded-t-lg">
             <div className="flex items-center justify-center gap-6 mb-2">
               <div className="relative w-60 h-60 flex items-center justify-center">
-                <Image
-                  src="/ADGOV.png"
+                <img
+                  src={`${basePath}/ADGOV.png`}
                   alt="Abu Dhabi Government Logo"
                   width={240}
                   height={240}
@@ -76,8 +77,8 @@ export default function JourneyMap() {
               </div>
               <div className="h-32 w-px bg-primary/30 self-center"></div>
               <div className="relative w-60 h-60 flex items-center justify-center">
-                <Image
-                  src="/incorpify-logo-gradient.webp"
+                <img
+                  src={`${basePath}/incorpify-logo-gradient.webp`}
                   alt="Incorpify Logo"
                   width={240}
                   height={240}
