@@ -101,17 +101,27 @@ export default function JourneyMap() {
           <TabsList className="grid w-full grid-cols-2 bg-purple-100 p-1 h-auto">
             <TabsTrigger 
               value="tech" 
-              className="data-[state=active]:bg-white data-[state=active]:text-primary data-[state=active]:shadow-md py-3 text-base font-semibold"
+              className="data-[state=active]:bg-white data-[state=active]:text-primary data-[state=active]:shadow-md py-3 text-base font-semibold whitespace-normal break-words"
             >
-              <Rocket className="w-5 h-5 mr-2" />
-              Tech Startup Journey
+              <div className="flex flex-col md:flex-row items-center justify-center gap-1 md:gap-2">
+                <Rocket className="w-5 h-5 flex-shrink-0" />
+                <span className="text-center">
+                  <span className="block md:inline">Tech Startup</span>
+                  <span className="block md:inline md:ml-1">Journey</span>
+                </span>
+              </div>
             </TabsTrigger>
             <TabsTrigger 
               value="standard"
-              className="data-[state=active]:bg-white data-[state=active]:text-primary data-[state=active]:shadow-md py-3 text-base font-semibold"
+              className="data-[state=active]:bg-white data-[state=active]:text-primary data-[state=active]:shadow-md py-3 text-base font-semibold whitespace-normal break-words"
             >
-              <Building2 className="w-5 h-5 mr-2" />
-              Standard Company Journey
+              <div className="flex flex-col md:flex-row items-center justify-center gap-1 md:gap-2">
+                <Building2 className="w-5 h-5 flex-shrink-0" />
+                <span className="text-center">
+                  <span className="block md:inline">Standard Company</span>
+                  <span className="block md:inline md:ml-1">Journey</span>
+                </span>
+              </div>
             </TabsTrigger>
           </TabsList>
 
@@ -585,8 +595,8 @@ export default function JourneyMap() {
               </CardHeader>
               <CardContent>
                 <p className="text-gray-700 mb-3">For startups that prefer to establish their company structure first before applying to Hub71, or for those exploring other options:</p>
-                <p className="text-sm text-primary font-semibold flex items-center gap-2">
-                  <ArrowRight className="w-4 h-4" />
+                <p className="text-sm text-primary font-semibold">
+                  <ArrowRight className="w-4 h-4 inline mr-2" />
                   Proceed with <strong>Incorpify</strong> for end-to-end company formation assistance in ADGM or other Abu Dhabi jurisdictions.
                 </p>
               </CardContent>
@@ -1256,8 +1266,8 @@ export default function JourneyMap() {
               </CardHeader>
               <CardContent>
                 <p className="text-gray-700 mb-3">For businesses that prefer end-to-end incorporation support:</p>
-                <p className="text-sm text-primary font-semibold flex items-center gap-2">
-                  <ArrowRight className="w-4 h-4" />
+                <p className="text-sm text-primary font-semibold">
+                  <ArrowRight className="w-4 h-4 inline mr-2" />
                   Proceed with <strong>Incorpify</strong> for fully managed company formation in your chosen jurisdiction.
                 </p>
               </CardContent>
